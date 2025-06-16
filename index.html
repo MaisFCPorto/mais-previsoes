@@ -503,6 +503,24 @@
     }
   }
 
+  .game-card.inactive {
+  position: relative;
+  pointer-events: none; /* impede cliques */
+  opacity: 0.6;
+  filter: blur(0,2px);
+}
+
+/* opcional: camada extra de sobreposição escura */
+.game-card.inactive::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(0,8px);
+  z-index: 2;
+}
+
   @media (max-width: 600px) {
     html,
     body {
@@ -642,9 +660,9 @@
       </div>
 
       <!-- Jogo 1 -->
-      <div class="game-card">
+      <div class="game-card inactive">
         <div class="match-info">
-          <h3 class="game-title">JOGO 1</h3>
+          <h3 class="game-title">JOGO 1 - Encerrado</h3>
           <span class="match-date">15 JUNHO – 23H00</span>
           <span class="match-venue">· MetLife Stadium · New Jersey</span>
         </div>
@@ -653,9 +671,9 @@
             src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/FC_Porto.svg/1200px-FC_Porto.svg.png"
             alt="FCP"
             class="team-logo" />
-            <input type="number" name="golos_fcp1" class="score-input" placeholder="FCP" min="0" max="9" required/>
+            <input type="number" name="golos_fcp1" class="score-input" placeholder="0" min="0" max="9" required/>
             <span class="vs-text">vs</span>
-            <input type="number" name="golos_adv1" class="score-input" placeholder="PAL" min="0" max="9" required/>
+            <input type="number" name="golos_adv1" class="score-input" placeholder="0" min="0" max="9" required/>
           
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Palmeiras_logo.svg/800px-Palmeiras_logo.svg.png"
