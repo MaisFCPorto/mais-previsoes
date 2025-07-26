@@ -14,13 +14,13 @@
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to bottom, #001537, #001c4d);
       color: white;
-      min-height: 100vh;
-      display: flex;
+      overflow-x: hidden;
     }
 
     .layout {
       display: flex;
-      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     .sidebar {
@@ -28,6 +28,11 @@
       background: #061538;
       padding: 20px;
       border-right: 2px solid #0a1e4d;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar.hidden {
+      transform: translateX(100%);
     }
 
     .user-info {
@@ -64,68 +69,67 @@
 
     .main {
       flex: 1;
-      padding: 0 40px;
-      position: relative;
+      padding: 40px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      overflow-x: hidden;
+      width: 100%;
     }
 
     .logo-header {
-      position: absolute;
-      top: 20px;
-      left: 40px;
-      right: 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 10;
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 24px;
     }
 
     .logo-header img {
-      height: 40px;
+      height: 60px;
     }
 
-    .content-wrapper {
-      flex: 1;
+    .game-area {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
-    .carousel-container {
+    .game-card-container {
       position: relative;
       width: 100%;
-      max-width: 700px;
+      max-width: 800px;
+      height: 400px;
+      display: flex;
       overflow: hidden;
-      margin-bottom: 10px;
     }
 
-    .carousel-track {
+    .game-card-track {
       display: flex;
       transition: transform 0.5s ease-in-out;
+      width: 100%;
     }
 
     .game-card {
+      flex: 0 0 100%;
       background: linear-gradient(135deg, #004aad, #007bff);
       border-radius: 16px;
       padding: 2rem;
-      width: 100%;
-      height: 400px;
+      margin: auto;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-evenly;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      flex-shrink: 0;
+      min-height: 300px;
+      height: 350px;
     }
 
     .game-title {
       font-size: 20px;
       font-weight: bold;
-      margin-bottom: 12px;
     }
 
     .match-info {
@@ -166,19 +170,20 @@
       color: #00154c;
       padding: 12px 20px;
       border-radius: 8px;
+      margin-top: 16px;
       text-align: center;
       font-size: 14px;
       font-weight: bold;
       width: 100%;
-      max-width: 700px;
-      margin-bottom: 8px;
+      max-width: 800px;
     }
 
     .nav-buttons {
       width: 100%;
-      max-width: 700px;
+      max-width: 800px;
       display: flex;
       justify-content: space-between;
+      margin-top: 12px;
     }
 
     .nav-buttons button {
@@ -191,36 +196,59 @@
       cursor: pointer;
     }
 
+    .hamburger {
+      display: none;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: 2px solid white;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: 18px;
+      color: white;
+      cursor: pointer;
+      z-index: 999;
+    }
+
     @media (max-width: 768px) {
       .layout {
         flex-direction: column;
       }
 
       .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 2px solid #0a1e4d;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        z-index: 998;
+        background: #061538;
+        transform: translateX(100%);
       }
 
-      .main {
-        padding: 20px;
+      .sidebar.active {
+        transform: translateX(0%);
+      }
+
+      .hamburger {
+        display: block;
       }
 
       .logo-header {
-        top: 10px;
-        left: 20px;
-        right: 20px;
+        margin-top: 40px;
       }
     }
   </style>
 </head>
 <body>
   <div class="layout">
-    <div class="sidebar">
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+
+    <div class="sidebar" id="sidebar">
       <div class="user-info">+Cris — 89 pts</div>
 
       <div class="ranking">
-        <h3>🏆 Ranking Geral</h3>
+        <h3>⭐ Ranking Geral</h3>
         <ul>
           <li>1. João — 135 pts</li>
           <li>2. Pedro — 120 pts</li>
@@ -247,13 +275,13 @@
 
     <div class="main">
       <div class="logo-header">
-        <img src="https://maisfcporto.com/wp-content/uploads/2023/12/logobranco-1.png" alt="MaisFCP" />
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/DAZN_Logo_Chalk.svg/400px-DAZN_Logo_Chalk.svg.png" alt="DAZN" />
+        <img style="transform: scale(1.2);" src="https://maisfcporto.com/wp-content/uploads/2023/12/logobranco-1.png" alt="MaisFCP" />
+        <img style="transform: scale(1.2);" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/DAZN_Logo_Chalk.svg/400px-DAZN_Logo_Chalk.svg.png" alt="DAZN" />
       </div>
 
-      <div class="content-wrapper">
-        <div class="carousel-container">
-          <div class="carousel-track" id="carouselTrack">
+      <div class="game-area">
+        <div class="game-card-container">
+          <div class="game-card-track" id="carousel">
             <div class="game-card">
               <div class="game-title">JOGO 1 - FCP vs Palmeiras</div>
               <div class="match-info">15 JUNHO — 23H00<br/>MetLife Stadium, NJ</div>
@@ -265,7 +293,6 @@
                 <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Palmeiras_logo.svg/800px-Palmeiras_logo.svg.png" alt="PAL" />
               </div>
             </div>
-
             <div class="game-card">
               <div class="game-title">JOGO 2 - FCP vs Inter Miami</div>
               <div class="match-info">19 JUNHO — 23H00<br/>Atlanta</div>
@@ -275,18 +302,6 @@
                 <span class="vs-text">vs</span>
                 <input type="number" class="score-input" value="2" />
                 <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5c/Inter_Miami_CF_logo.svg/1200px-Inter_Miami_CF_logo.svg.png" alt="MIA" />
-              </div>
-            </div>
-
-            <div class="game-card">
-              <div class="game-title">JOGO 3 - FCP vs Al Ahly</div>
-              <div class="match-info">24 JUNHO — 02H00<br/>New Jersey</div>
-              <div class="teams-row">
-                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/FC_Porto.svg/1200px-FC_Porto.svg.png" alt="FCP" />
-                <input type="number" class="score-input" value="4" />
-                <span class="vs-text">vs</span>
-                <input type="number" class="score-input" value="4" />
-                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/7/70/Al_Ahly_SC_logo.svg/640px-Al_Ahly_SC_logo.svg.png" alt="AHL" />
               </div>
             </div>
           </div>
@@ -305,21 +320,24 @@
   </div>
 
   <script>
-    const track = document.getElementById('carouselTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("active");
+    }
+
+    const track = document.getElementById("carousel");
     let currentIndex = 0;
 
     function updateCarousel() {
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
-    prevBtn.addEventListener('click', () => {
+    document.getElementById("prevBtn").addEventListener("click", () => {
       currentIndex = (currentIndex - 1 + track.children.length) % track.children.length;
       updateCarousel();
     });
 
-    nextBtn.addEventListener('click', () => {
+    document.getElementById("nextBtn").addEventListener("click", () => {
       currentIndex = (currentIndex + 1) % track.children.length;
       updateCarousel();
     });
