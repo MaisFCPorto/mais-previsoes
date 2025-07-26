@@ -14,13 +14,11 @@
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to bottom, #001537, #001c4d);
       color: white;
-      overflow-x: hidden;
     }
 
     .layout {
       display: flex;
       min-height: 100vh;
-      overflow-x: hidden;
     }
 
     .sidebar {
@@ -28,11 +26,6 @@
       background: #061538;
       padding: 20px;
       border-right: 2px solid #0a1e4d;
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .sidebar.hidden {
-      transform: translateX(100%);
     }
 
     .user-info {
@@ -55,6 +48,14 @@
       font-size: 16px;
       border-bottom: 1px solid #ffd700;
       padding-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ranking h3::before {
+      content: attr(data-icon);
+      font-size: 16px;
     }
 
     .ranking ul {
@@ -69,21 +70,23 @@
 
     .main {
       flex: 1;
-      padding: 40px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      overflow-x: hidden;
-      width: 100%;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
     }
 
     .logo-header {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
-      max-width: 900px;
-      margin-bottom: 24px;
+      z-index: 10;
     }
 
     .logo-header img {
@@ -98,18 +101,14 @@
     }
 
     .game-card-container {
-      position: relative;
       width: 100%;
       max-width: 800px;
-      height: 400px;
-      display: flex;
       overflow: hidden;
     }
 
     .game-card-track {
       display: flex;
       transition: transform 0.5s ease-in-out;
-      width: 100%;
     }
 
     .game-card {
@@ -121,15 +120,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-evenly;
+      justify-content: space-between;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      min-height: 300px;
-      height: 350px;
+      min-height: 400px;
     }
 
     .game-title {
       font-size: 20px;
       font-weight: bold;
+      margin-bottom: 12px;
     }
 
     .match-info {
@@ -170,20 +169,20 @@
       color: #00154c;
       padding: 12px 20px;
       border-radius: 8px;
-      margin-top: 16px;
       text-align: center;
       font-size: 14px;
       font-weight: bold;
-      width: 100%;
       max-width: 800px;
+      width: 100%;
+      margin-top: 10px;
     }
 
     .nav-buttons {
-      width: 100%;
       max-width: 800px;
+      width: 100%;
       display: flex;
       justify-content: space-between;
-      margin-top: 12px;
+      margin-top: 8px;
     }
 
     .nav-buttons button {
@@ -196,59 +195,34 @@
       cursor: pointer;
     }
 
-    .hamburger {
-      display: none;
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: 2px solid white;
-      border-radius: 4px;
-      padding: 6px 10px;
-      font-size: 18px;
-      color: white;
-      cursor: pointer;
-      z-index: 999;
-    }
-
     @media (max-width: 768px) {
       .layout {
         flex-direction: column;
       }
 
       .sidebar {
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100vh;
-        z-index: 998;
-        background: #061538;
-        transform: translateX(100%);
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #0a1e4d;
       }
 
-      .sidebar.active {
-        transform: translateX(0%);
+      .main {
+        padding: 20px;
       }
 
-      .hamburger {
-        display: block;
-      }
-
-      .logo-header {
-        margin-top: 40px;
+      .logo-header img {
+        height: 48px;
       }
     }
   </style>
 </head>
 <body>
   <div class="layout">
-    <button class="hamburger" onclick="toggleSidebar()">☰</button>
-
-    <div class="sidebar" id="sidebar">
+    <div class="sidebar">
       <div class="user-info">+Cris — 89 pts</div>
 
-      <div class="ranking">
-        <h3>⭐ Ranking Geral</h3>
+      <div class="ranking" data-icon="⭐">
+        <h3>Ranking Geral</h3>
         <ul>
           <li>1. João — 135 pts</li>
           <li>2. Pedro — 120 pts</li>
@@ -256,8 +230,8 @@
         </ul>
       </div>
 
-      <div class="ranking">
-        <h3>📅 Ranking Mensal</h3>
+      <div class="ranking" data-icon="📅">
+        <h3>Ranking Mensal</h3>
         <ul>
           <li>1. Afonso — 45 pts</li>
           <li>2. Rita — 40 pts</li>
@@ -265,8 +239,8 @@
         </ul>
       </div>
 
-      <div class="ranking">
-        <h3>🥇 Último Jogo</h3>
+      <div class="ranking" data-icon="🥇">
+        <h3>Último Jogo</h3>
         <ul>
           <li>1. Miguel — 30 pts</li>
         </ul>
@@ -275,8 +249,8 @@
 
     <div class="main">
       <div class="logo-header">
-        <img style="transform: scale(1.2);" src="https://maisfcporto.com/wp-content/uploads/2023/12/logobranco-1.png" alt="MaisFCP" />
-        <img style="transform: scale(1.2);" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/DAZN_Logo_Chalk.svg/400px-DAZN_Logo_Chalk.svg.png" alt="DAZN" />
+        <img src="https://maisfcporto.com/wp-content/uploads/2023/12/logobranco-1.png" alt="MaisFCP" />
+        <img style="transform: scale(0.7);" src="https://logodownload.org/wp-content/uploads/2021/07/betano-logo-5.png" alt="betano" />
       </div>
 
       <div class="game-area">
@@ -286,22 +260,35 @@
               <div class="game-title">JOGO 1 - FCP vs Palmeiras</div>
               <div class="match-info">15 JUNHO — 23H00<br/>MetLife Stadium, NJ</div>
               <div class="teams-row">
-                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/FC_Porto.svg/1200px-FC_Porto.svg.png" alt="FCP" />
+                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/f/f1/FC_Porto.svg" alt="FCP" />
                 <input type="number" class="score-input" value="0" />
                 <span class="vs-text">vs</span>
                 <input type="number" class="score-input" value="0" />
-                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Palmeiras_logo.svg/800px-Palmeiras_logo.svg.png" alt="PAL" />
+                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Palmeiras_logo.svg" alt="PAL" />
               </div>
             </div>
+
             <div class="game-card">
               <div class="game-title">JOGO 2 - FCP vs Inter Miami</div>
               <div class="match-info">19 JUNHO — 23H00<br/>Atlanta</div>
               <div class="teams-row">
-                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f1/FC_Porto.svg/1200px-FC_Porto.svg.png" alt="FCP" />
+                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/f/f1/FC_Porto.svg" alt="FCP" />
                 <input type="number" class="score-input" value="1" />
                 <span class="vs-text">vs</span>
                 <input type="number" class="score-input" value="2" />
-                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/thumb/5/5c/Inter_Miami_CF_logo.svg/1200px-Inter_Miami_CF_logo.svg.png" alt="MIA" />
+                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/5/5c/Inter_Miami_CF_logo.svg" alt="MIA" />
+              </div>
+            </div>
+
+            <div class="game-card">
+              <div class="game-title">JOGO 3 - FCP vs Al Ahly</div>
+              <div class="match-info">24 JUNHO — 02H00<br/>New Jersey</div>
+              <div class="teams-row">
+                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/f/f1/FC_Porto.svg" alt="FCP" />
+                <input type="number" class="score-input" value="4" />
+                <span class="vs-text">vs</span>
+                <input type="number" class="score-input" value="4" />
+                <img class="team-logo" src="https://upload.wikimedia.org/wikipedia/en/7/70/Al_Ahly_SC_logo.svg" alt="AHL" />
               </div>
             </div>
           </div>
@@ -320,25 +307,20 @@
   </div>
 
   <script>
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      sidebar.classList.toggle("active");
-    }
-
-    const track = document.getElementById("carousel");
+    const carousel = document.getElementById("carousel");
     let currentIndex = 0;
 
     function updateCarousel() {
-      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
     document.getElementById("prevBtn").addEventListener("click", () => {
-      currentIndex = (currentIndex - 1 + track.children.length) % track.children.length;
+      currentIndex = (currentIndex - 1 + carousel.children.length) % carousel.children.length;
       updateCarousel();
     });
 
     document.getElementById("nextBtn").addEventListener("click", () => {
-      currentIndex = (currentIndex + 1) % track.children.length;
+      currentIndex = (currentIndex + 1) % carousel.children.length;
       updateCarousel();
     });
   </script>
