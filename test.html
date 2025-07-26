@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Passatempo FCP</title>
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family: Arial, sans-serif; background: linear-gradient(to bottom,#00154c,#000a2d); color:#fff; }
+    header { text-align:center; padding:20px; position: relative; }
+    header img.logo { max-width:220px; margin-right:10px; vertical-align: middle; }
+    header .hamburger { display:none; position:absolute; top:20px; right:20px; cursor:pointer; font-size:24px; }
+    .sidebar { width:250px; background:#022a70; padding:20px; }
+    .sidebar h2 { font-size:18px; margin-bottom:10px; }
+    .sidebar ul { list-style:none; }
+    .sidebar li { margin:8px 0; }
+    .main { flex:1; padding:20px; }
+    .layout { display:flex; max-width:1200px; margin: auto; }
+    .carousel { display:flex; overflow-x:auto; gap:20px; padding-bottom:20px; }
+    .game-card { min-width:280px; background: linear-gradient(135deg,#004aad,#007bff); border-radius:16px; padding:16px; box-shadow:0 4px 16px rgba(0,0,0,0.2); }
+    .game-title { font-size:1.2rem; margin-bottom:8px; }
+    .match-info { font-size:0.9rem; color:#ffea00; text-align:center; margin-bottom:12px; }
+    .teams-row { display:flex; justify-content:space-around; align-items:center; margin-bottom:12px; }
+    .score-input { width:50px; padding:6px; text-align:center; font-size:1rem; border-radius:6px; border:none; }
+    .vs-text { font-weight:bold; }
+    .hamburger.active + .sidebar { display:none; }
+    @media(max-width:768px){
+      .layout { flex-direction:column; }
+      .sidebar { display:none; position:absolute; top:64px; right:0; height:100vh; z-index:10; }
+      header .hamburger { display:block; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="https://maisfcporto.com"><img src="https://maisfcporto.com/wp-content/uploads/2023/12/logobranco-1.png" alt="Logo" class="logo"></a>
+  <span class="hamburger">&#9776;</span>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h2>Ranking Atual</h2>
+    <ul id="ranking-list">
+      <!-- ranking via JS -->
+    </ul>
+  </aside>
+  <main class="main">
+    <h1 style="text-align:center; margin-bottom:20px;">Game Cards</h1>
+    <div class="carousel" id="gameCarousel">
+      <!-- cartões via JS -->
+    </div>
+  </main>
+</div>
+
+<script>
+  const sampleRanking = [
+    {nome:'Fábio', pontos:45},{nome:'Daniel Moreira', pontos:42},{nome:'Afonso', pontos:41},
+    {nome:'Tomás Martins', pontos:40},{nome:'Luís Leite', pontos:39}
+  ];
+  const arrCards = [
+    {title:'JOGO 1', date:'15 JUNHO – 23H00', venue:'MetLife Stadium, NJ', fcp:0, adv:0, active:false},
+    {title:'JOGO 2', date:'19 JUNHO – 23H00', venue:'Atlanta', fcp:1, adv:2, active:false},
+    {title:'JOGO 3', date:'24 JUNHO – 02H00', venue:'New Jersey', fcp:4, adv:4, active:true}
+  ];
+
+  function renderRanking(){
+    const ul = document.getElementById('ranking-list');
+    sampleRanking.forEach(r=>{
+      const li = document.createElement('li');
+      li.textContent = `${r.nome}: ${r.pontos} pts`;
+      ul.appendChild(li);
+    });
+  }
+
+  function renderCards(){
+    const carousel = document.getElementById('gameCarousel');
+    arrCards.forEach(c=>{
+      const div = document.createElement('div');
+      div.className = 'game-card' + (c.active? '' : ' inactive');
+      div.innerHTML = `
+        <div class="game-title">${c.title}${c.active?'':' – Encerrado'}</div>
+        <div class="match-info">${c.date}<br>${c.venue}</div>
+        <div class="teams-row">
+          <div>FCP <input type="number" value="${c.fcp}" class="score-input" min="0" max="9" ${c.active? '':'disabled'}></div>
+          <span class="vs-text">vs</span>
+          <div>ADV <input type="number" value="${c.adv}" class="score-input" min="0" max="9" ${c.active? '':'disabled'}></div>
+        </div>
+      `;
+      carousel.appendChild(div);
+    });
+  }
+
+  document.querySelector('.hamburger').addEventListener('click', function(){
+    this.classList.toggle('active');
+    document.querySelector('.sidebar').classList.toggle('active');
+  });
+
+  renderRanking();
+  renderCards();
+</script>
+
+</body>
+</html>
